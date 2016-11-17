@@ -1,4 +1,4 @@
-angular.module('btorfs.multiselect.templates', ['multiselect.html']);
+angular.module('sippi.multiselect.templates', ['multiselect.html']);
 
 angular.module("multiselect.html", []).run(["$templateCache", function($templateCache) {
   $templateCache.put("multiselect.html",
@@ -11,12 +11,12 @@ angular.module("multiselect.html", []).run(["$templateCache", function($template
     "\n" +
     "        <li ng-show=\"showSelectAll\">\n" +
     "            <a ng-click=\"selectAll()\" href=\"\">\n" +
-    "                <span class=\"glyphicon glyphicon-ok\"></span> Select All\n" +
+    "                <span class=\"glyphicon glyphicon-ok\"></span> Alle\n" +
     "            </a>\n" +
     "        </li>\n" +
     "        <li ng-show=\"showUnselectAll\">\n" +
     "            <a ng-click=\"unselectAll()\" href=\"\">\n" +
-    "                <span class=\"glyphicon glyphicon-remove\"></span> Unselect All\n" +
+    "                <span class=\"glyphicon glyphicon-remove\"></span> Keine\n" +
     "            </a>\n" +
     "        </li>\n" +
     "        <li ng-show=\"(showSelectAll || showUnselectAll)\"\n" +
@@ -34,7 +34,7 @@ angular.module("multiselect.html", []).run(["$templateCache", function($template
     "        <li ng-show=\"showSearch\">\n" +
     "            <div class=\"dropdown-header\">\n" +
     "                <input type=\"text\" class=\"form-control input-sm\" style=\"width: 100%;\"\n" +
-    "                       ng-model=\"searchFilter\" placeholder=\"Search...\" ng-change=\"updateOptions()\"/>\n" +
+    "                       ng-model=\"searchFilter\" placeholder=\"Suchen...\" ng-change=\"updateOptions()\"/>\n" +
     "            </div>\n" +
     "        </li>\n" +
     "\n" +

@@ -6,7 +6,7 @@ describe("The multiselect directive, when using object models,", function () {
     var $rootScope;
     var $compile;
 
-    beforeEach(angular.mock.module('btorfs.multiselect'));
+    beforeEach(angular.mock.module('sippi.multiselect'));
 
     beforeEach(inject(function (_$compile_, _$rootScope_) {
         $scope = _$rootScope_.$new();

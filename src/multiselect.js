@@ -1,7 +1,7 @@
 (function () {
     'use strict';
 
-    var multiselect = angular.module('btorfs.multiselect', ['btorfs.multiselect.templates']);
+    var multiselect = angular.module('sippi.multiselect', ['sippi.multiselect.templates']);
 
     multiselect.getRecursiveProperty = function (object, path) {
         return path.split('.').reduce(function (object, x) {
@@ -27,7 +27,8 @@
                 showSearch: '=?',
                 searchFilter: '=?',
                 disabled: '=?ngDisabled',
-                defaultText: '@'
+                defaultText: '@',
+                buttonSelectText: '@'
             },
             require: 'ngModel',
             templateUrl: 'multiselect.html',
@@ -49,6 +50,8 @@
 
                 $scope.toggleDropdown = function () {
                     $scope.open = !$scope.open;
+                    $scope.resolvedOptions = $scope.options;
+                    updateSelectionLists();
                 };
 
                 var closeHandler = function (event) {
@@ -112,19 +115,34 @@
                 });
 
                 $scope.getButtonText = function () {
+                    if ($scope.selectedOptions.length == $scope.options.length) {
+                        return 'Alle';
+                    }
+
                     if ($scope.selectedOptions && $scope.selectedOptions.length === 1) {
                         return $scope.getDisplay($scope.selectedOptions[0]);
                     }
+
+                    if ($scope.selectedOptions && $scope.selectedOptions.length === 2) {
+                        return $scope.getDisplay($scope.selectedOptions[0]) + ',' + $scope.getDisplay($scope.selectedOptions[1]);
+                    }
+
+                    var buttonText = 'Auswählen';
+
+                    if ($scope.buttonSelectText != null) {
+                        buttonText = $scope.buttonSelectText;
+                    }
+
                     if ($scope.selectedOptions && $scope.selectedOptions.length > 1) {
                         var totalSelected;
                         totalSelected = angular.isDefined($scope.selectedOptions) ? $scope.selectedOptions.length : 0;
                         if (totalSelected === 0) {
-                            return $scope.defaultText;
+                            return buttonText;
                         } else {
-                            return totalSelected + ' ' + 'selected';
+                            return totalSelected + ' ' + 'ausgewählt';
                         }
                     } else {
-                        return $scope.defaultText;
+                        return buttonText;
                     }
                 };
 

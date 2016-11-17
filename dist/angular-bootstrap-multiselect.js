@@ -1,7 +1,7 @@
 (function () {
     'use strict';
 
-    var multiselect = angular.module('btorfs.multiselect', ['btorfs.multiselect.templates']);
+    var multiselect = angular.module('sippi.multiselect', ['sippi.multiselect.templates']);
 
     multiselect.getRecursiveProperty = function (object, path) {
         return path.split('.').reduce(function (object, x) {
@@ -13,7 +13,7 @@
         }, object)
     };
 
-    multiselect.directive('multiselect', ['$filter', '$document', '$log', function ($filter, $document, $log) {
+    multiselect.directive('multiselect', function ($filter, $document, $log) {
         return {
             restrict: 'AE',
             scope: {
@@ -27,7 +27,8 @@
                 showSearch: '=?',
                 searchFilter: '=?',
                 disabled: '=?ngDisabled',
-                defaultText: '@'
+                defaultText: '@',
+                buttonSelectText: '@'
             },
             require: 'ngModel',
             templateUrl: 'multiselect.html',
@@ -49,6 +50,8 @@
 
                 $scope.toggleDropdown = function () {
                     $scope.open = !$scope.open;
+                    $scope.resolvedOptions = $scope.options;
+                    updateSelectionLists();
                 };
 
                 var closeHandler = function (event) {
@@ -112,19 +115,34 @@
                 });
 
                 $scope.getButtonText = function () {
+                    if ($scope.selectedOptions.length == $scope.options.length) {
+                        return 'Alle';
+                    }
+
                     if ($scope.selectedOptions && $scope.selectedOptions.length === 1) {
                         return $scope.getDisplay($scope.selectedOptions[0]);
                     }
+
+                    if ($scope.selectedOptions && $scope.selectedOptions.length === 2) {
+                        return $scope.getDisplay($scope.selectedOptions[0]) + ',' + $scope.getDisplay($scope.selectedOptions[1]);
+                    }
+
+                    var buttonText = 'Auswählen';
+
+                    if ($scope.buttonSelectText != null) {
+                        buttonText = $scope.buttonSelectText;
+                    }
+
                     if ($scope.selectedOptions && $scope.selectedOptions.length > 1) {
                         var totalSelected;
                         totalSelected = angular.isDefined($scope.selectedOptions) ? $scope.selectedOptions.length : 0;
                         if (totalSelected === 0) {
-                            return $scope.defaultText;
+                            return buttonText;
                         } else {
-                            return totalSelected + ' ' + 'selected';
+                            return totalSelected + ' ' + 'ausgewählt';
                         }
                     } else {
-                        return $scope.defaultText;
+                        return buttonText;
                     }
                 };
 
@@ -229,11 +247,11 @@
 
             }
         };
-    }]);
+    });
 
 }());
 
-angular.module('btorfs.multiselect.templates', ['multiselect.html']);
+angular.module('sippi.multiselect.templates', ['multiselect.html']);
 
 angular.module("multiselect.html", []).run(["$templateCache", function($templateCache) {
   $templateCache.put("multiselect.html",
@@ -246,12 +264,12 @@ angular.module("multiselect.html", []).run(["$templateCache", function($template
     "\n" +
     "        <li ng-show=\"showSelectAll\">\n" +
     "            <a ng-click=\"selectAll()\" href=\"\">\n" +
-    "                <span class=\"glyphicon glyphicon-ok\"></span> Select All\n" +
+    "                <span class=\"glyphicon glyphicon-ok\"></span> Alle\n" +
     "            </a>\n" +
     "        </li>\n" +
     "        <li ng-show=\"showUnselectAll\">\n" +
     "            <a ng-click=\"unselectAll()\" href=\"\">\n" +
-    "                <span class=\"glyphicon glyphicon-remove\"></span> Unselect All\n" +
+    "                <span class=\"glyphicon glyphicon-remove\"></span> Keine\n" +
     "            </a>\n" +
     "        </li>\n" +
     "        <li ng-show=\"(showSelectAll || showUnselectAll)\"\n" +
@@ -269,7 +287,7 @@ angular.module("multiselect.html", []).run(["$templateCache", function($template
     "        <li ng-show=\"showSearch\">\n" +
     "            <div class=\"dropdown-header\">\n" +
     "                <input type=\"text\" class=\"form-control input-sm\" style=\"width: 100%;\"\n" +
-    "                       ng-model=\"searchFilter\" placeholder=\"Search...\" ng-change=\"updateOptions()\"/>\n" +
+    "                       ng-model=\"searchFilter\" placeholder=\"Suchen...\" ng-change=\"updateOptions()\"/>\n" +
     "            </div>\n" +
     "        </li>\n" +
     "\n" +

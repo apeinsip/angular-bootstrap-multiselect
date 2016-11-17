@@ -6,3 +6,15 @@ Angular Bootstrap Multiselect
 Find documentation on [ the github page](http://bentorfs.github.io/angular-bootstrap-multiselect/)
 
 Contributions welcome
+
+
+
+USAGE
+========
+Install using Bower:
+====================
+bower install https://github.com/apeinsip/angular-bootstrap-multiselect.git --save-dev
+
+Add module to angular application:
+==================================
+var app = angular.module('myApp', ['sippi.multiselect']);
