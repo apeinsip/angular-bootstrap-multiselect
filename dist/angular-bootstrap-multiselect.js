@@ -115,8 +115,8 @@
                 });
 
                 $scope.getButtonText = function () {
-                    if ($scope.selectedOptions.length == $scope.options.length) {
-                        return 'Alle';
+                    if ($scope.selectedOptions && $scope.selectedOptions.length == $scope.options.length) {
+                        return 'Alle ' + $scope.buttonSelectText;
                     }
 
                     if ($scope.selectedOptions && $scope.selectedOptions.length === 1) {
@@ -139,7 +139,11 @@
                         if (totalSelected === 0) {
                             return buttonText;
                         } else {
-                            return totalSelected + ' ' + 'ausgewählt';
+                            if ($scope.buttonSelectText != null) {
+                                return totalSelected + ' ' + $scope.buttonSelectText + ' ' + 'ausgewählt';
+                            } else {
+                                return totalSelected + ' ' + 'ausgewählt';
+                            }
                         }
                     } else {
                         return buttonText;
