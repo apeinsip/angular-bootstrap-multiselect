@@ -26,9 +26,12 @@
                 showUnselectAll: '=?',
                 showSearch: '=?',
                 searchFilter: '=?',
+                additionalclass: '@',
                 disabled: '=?ngDisabled',
                 defaultText: '@',
-                buttonSelectText: '@'
+                buttonSelectText: '@',
+                buttonSelectTextFilter: '@',
+                buttonSelectTextAll: '@'
             },
             require: 'ngModel',
             templateUrl: 'multiselect.html',
@@ -114,9 +117,21 @@
                     }
                 });
 
+                $scope.getAdditionalclass = function () {
+                    return $scope.additionalclass || "";
+                };
+
                 $scope.getButtonText = function () {
+                    if ($scope.buttonSelectTextAll == null) {
+                        $scope.buttonSelectTextAll = $scope.buttonSelectText;
+                    }
+
+                    if ($scope.buttonSelectTextFilter == null) {
+                        $scope.buttonSelectTextFilter = $scope.buttonSelectText;
+                    }
+
                     if ($scope.selectedOptions && $scope.selectedOptions.length == $scope.options.length) {
-                        return 'Alle ' + $scope.buttonSelectText;
+                        return 'Alle ' + $scope.buttonSelectTextAll;
                     }
 
                     if ($scope.selectedOptions && $scope.selectedOptions.length === 1) {
@@ -124,13 +139,13 @@
                     }
 
                     if ($scope.selectedOptions && $scope.selectedOptions.length === 2) {
-                        return $scope.getDisplay($scope.selectedOptions[0]) + ',' + $scope.getDisplay($scope.selectedOptions[1]);
+                        return $scope.getDisplay($scope.selectedOptions[0]) + ', ' + $scope.getDisplay($scope.selectedOptions[1]);
                     }
 
                     var buttonText = 'Auswählen';
 
-                    if ($scope.buttonSelectText != null) {
-                        buttonText = $scope.buttonSelectText;
+                    if ($scope.buttonSelectTextFilter != null) {
+                        buttonText = $scope.buttonSelectTextFilter;
                     }
 
                     if ($scope.selectedOptions && $scope.selectedOptions.length > 1) {

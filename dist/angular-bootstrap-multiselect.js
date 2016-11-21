@@ -26,9 +26,12 @@
                 showUnselectAll: '=?',
                 showSearch: '=?',
                 searchFilter: '=?',
+                additionalclass: '@',
                 disabled: '=?ngDisabled',
                 defaultText: '@',
-                buttonSelectText: '@'
+                buttonSelectText: '@',
+                buttonSelectTextFilter: '@',
+                buttonSelectTextAll: '@'
             },
             require: 'ngModel',
             templateUrl: 'multiselect.html',
@@ -114,9 +117,21 @@
                     }
                 });
 
+                $scope.getAdditionalclass = function () {
+                    return $scope.additionalclass || "";
+                };
+
                 $scope.getButtonText = function () {
+                    if ($scope.buttonSelectTextAll == null) {
+                        $scope.buttonSelectTextAll = $scope.buttonSelectText;
+                    }
+
+                    if ($scope.buttonSelectTextFilter == null) {
+                        $scope.buttonSelectTextFilter = $scope.buttonSelectText;
+                    }
+
                     if ($scope.selectedOptions && $scope.selectedOptions.length == $scope.options.length) {
-                        return 'Alle ' + $scope.buttonSelectText;
+                        return 'Alle ' + $scope.buttonSelectTextAll;
                     }
 
                     if ($scope.selectedOptions && $scope.selectedOptions.length === 1) {
@@ -124,13 +139,13 @@
                     }
 
                     if ($scope.selectedOptions && $scope.selectedOptions.length === 2) {
-                        return $scope.getDisplay($scope.selectedOptions[0]) + ',' + $scope.getDisplay($scope.selectedOptions[1]);
+                        return $scope.getDisplay($scope.selectedOptions[0]) + ', ' + $scope.getDisplay($scope.selectedOptions[1]);
                     }
 
                     var buttonText = 'Auswählen';
 
-                    if ($scope.buttonSelectText != null) {
-                        buttonText = $scope.buttonSelectText;
+                    if ($scope.buttonSelectTextFilter != null) {
+                        buttonText = $scope.buttonSelectTextFilter;
                     }
 
                     if ($scope.selectedOptions && $scope.selectedOptions.length > 1) {
@@ -260,7 +275,7 @@ angular.module('sippi.multiselect.templates', ['multiselect.html']);
 angular.module("multiselect.html", []).run(["$templateCache", function($templateCache) {
   $templateCache.put("multiselect.html",
     "<div class=\"btn-group\" style=\"width: 100%\">\n" +
-    "    <button type=\"button\" class=\"form-control btn btn-default btn-block dropdown-toggle\" ng-click=\"toggleDropdown()\" ng-disabled=\"disabled\">\n" +
+    "    <button type=\"button\" class=\"btn {{getAdditionalclass()}} btn-block dropdown-toggle\" ng-click=\"toggleDropdown()\" ng-disabled=\"disabled\">\n" +
     "        {{getButtonText()}}&nbsp;<span class=\"caret\"></span>\n" +
     "    </button>\n" +
     "    <ul class=\"dropdown-menu dropdown-menu-form\"\n" +
