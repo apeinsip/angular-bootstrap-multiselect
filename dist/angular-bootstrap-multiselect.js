@@ -17,6 +17,7 @@
         return {
             restrict: 'AE',
             scope: {
+                ngModel: '=',
                 options: '=',
                 displayProp: '@',
                 idProp: '@',
@@ -146,6 +147,10 @@
 
                     if ($scope.buttonSelectTextFilter != null) {
                         buttonText = $scope.buttonSelectTextFilter;
+                    }
+
+                    if($scope.ngModel != null) {
+                        $scope.selectedOptions = $scope.ngModel;
                     }
 
                     if ($scope.selectedOptions && $scope.selectedOptions.length > 1) {
