@@ -149,10 +149,6 @@
                         buttonText = $scope.buttonSelectTextFilter;
                     }
 
-                    if($scope.ngModel != null) {
-                        $scope.selectedOptions = $scope.ngModel;
-                    }
-
                     if ($scope.selectedOptions && $scope.selectedOptions.length > 1) {
                         var totalSelected;
                         totalSelected = angular.isDefined($scope.selectedOptions) ? $scope.selectedOptions.length : 0;
